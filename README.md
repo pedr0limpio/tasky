@@ -1,3 +1,4 @@
+![build badge](https://github.com/pedr0limpio/tasky/actions/workflows/maven.yml/badge.svg?event=push&branch=main)
 # Tasky - a simple todo tool
 
 This project is for educational purposes only and its code is intentionally incomplete. Just to complete and learn.
