@@ -9,7 +9,7 @@
 
 #### - Mermaid plugin
 #### - Qodana plugin for code analysis
-#### - IntelliJ code coverage (instead JaCoCo)
+#### - JaCoCo code coverage
 
 ## Database Information
 1. JDBC MySQL driver for Quarkus;

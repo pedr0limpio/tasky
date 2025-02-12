@@ -46,3 +46,4 @@ nb-configuration.xml
 maven-wrapper.jar
 /htmlReport/
 /.qodana/code-coverage/output.ic
+/.qodana/code-coverage/jacoco.xml
