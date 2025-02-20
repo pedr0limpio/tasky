@@ -10,9 +10,18 @@ name: Java CI with Maven
 
 on:
   push:
+<<<<<<< HEAD
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+=======
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+>>>>>>> 1e264ff33a08b50730a102bc51d95141476239f0
 
 jobs:
   build:
@@ -36,6 +45,7 @@ jobs:
           exit 1
         fi
         
+<<<<<<< HEAD
     - name: Verify tag 
       id: verify_tag
       run: |
@@ -47,11 +57,24 @@ jobs:
         if git rev-parse "v$VERSION" >/dev/null 2>&1; then
           echo "Tag v$VERSION already exists."
           exit 1
+=======
+    - name: Verify tag
+      id: verify_tag
+      run: |
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        TAG="v$VERSION"
+        if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+        echo "Tag $TAG already exists."
+        exit 1
+>>>>>>> 1e264ff33a08b50730a102bc51d95141476239f0
         fi
         
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+<<<<<<< HEAD
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+=======
+>>>>>>> 1e264ff33a08b50730a102bc51d95141476239f0
