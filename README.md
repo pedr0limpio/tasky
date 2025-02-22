@@ -5,6 +5,11 @@ This project is for educational purposes only and its code is intentionally inco
 Also uses Quarkus, the Supersonic Subatomic Java Framework.
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
+### Heads up!
+Make sure you have JAVA_HOME and MAVEN_HOME properly set on both OS and IDE.
+You may want to ask any GPT how to set those.
+Also, make sure you test clean and install your Maven installation.
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
