@@ -41,8 +41,15 @@ public class TaskResource {
     }
 
     @Query
-    public Task searchById(int id) { //TODO[#3]: Implement the searchById(int id) method to fetch a task by id.
-        return taskBaseDAO.getById(id);
+    @Description("Fetch a task by its id")
+    @Transactional
+    public Task searchById(int id) {
+        try {
+            return taskBaseDAO.getById(id);
+        } catch (Exception e) {
+            LOG.error("Error fetching task with id " + id, e);
+            throw new RuntimeException("Error fetching task with id " + id, e);
+        }
     }
 
     @Mutation

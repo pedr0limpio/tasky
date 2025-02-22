@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -54,4 +55,19 @@ public class TaskResourceTest {
     //TODO[#6]: Make all the missing tests. Try starting here using TDD technique.
     //TODO[#7]: Check whether it will be necessary to create tests for the service classes, if so,
     // create the class(es) and the tests, if not, delete the services package from src/test.
+
+    @Test
+    public void testSearchById() {
+        int testId = 1;
+        Task mockTask = mock(Task.class);
+        doReturn(testId).when(mockTask).getId();
+        // Set other properties as needed
+
+        when(taskBaseDAO.getById(testId)).thenReturn(mockTask);
+
+        Task result = taskResource.searchById(testId);
+
+        assertNotNull(result, "Task should not be null");
+        assertEquals(testId, result.getId(), "Task id should match the test id");
+    }
 }
