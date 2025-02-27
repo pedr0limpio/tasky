@@ -3,6 +3,8 @@ package br.com.pedr0limpio.services;
 import br.com.pedr0limpio.enums.Tag;
 import br.com.pedr0limpio.models.Task;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -11,6 +13,9 @@ import java.util.Properties;
 
 @ApplicationScoped
 public class MySQLDAO extends TaskBaseDAO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySQLDAO.class);
+
     private String url;
     private String username;
     private String password;
@@ -31,7 +36,7 @@ public class MySQLDAO extends TaskBaseDAO {
             username = prop.getProperty("quarkus.datasource.username");
             password = prop.getProperty("quarkus.datasource.password");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -56,11 +61,11 @@ public class MySQLDAO extends TaskBaseDAO {
 
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
                 conn.rollback();
             } catch (SQLException rollbackException) {
-                rollbackException.printStackTrace();
+                LOGGER.error(rollbackException.getMessage());
             }
         }
     }
