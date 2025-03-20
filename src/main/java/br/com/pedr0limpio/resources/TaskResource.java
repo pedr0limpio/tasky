@@ -1,5 +1,4 @@
 package br.com.pedr0limpio.resources;
-
 import br.com.pedr0limpio.models.Task;
 import br.com.pedr0limpio.services.TaskBaseDAO;
 import jakarta.enterprise.context.RequestScoped;
@@ -10,7 +9,6 @@ import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Query;
 import org.jboss.logging.Logger;
-
 import java.util.List;
 
 @RequestScoped
@@ -41,8 +39,15 @@ public class TaskResource {
     }
 
     @Query
-    public Task searchById(int id) { //TODO[#3]: Implement the searchById(int id) method to fetch a task by id.
-        return taskBaseDAO.getById(id);
+    @Description("Fetch a task by id")
+    public Task searchById(int id) {
+        try {
+            Task task = taskBaseDAO.getById(id);
+            return task;
+        } catch (Exception e) {
+            LOG.error("Error fetching task with id: " + id, e);
+            throw new RuntimeException("Error fetching task with id: " + id, e);
+        }
     }
 
     @Mutation
