@@ -19,6 +19,8 @@ public class Task {
         return id;
     }
 
+    public void setId(int i) { this.id = id;}
+
     public String getDescription() {
         return description;
     }
