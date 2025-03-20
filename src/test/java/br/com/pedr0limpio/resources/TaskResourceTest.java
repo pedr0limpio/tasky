@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @QuarkusTest
@@ -51,6 +52,30 @@ public class TaskResourceTest {
         taskResource.newTask(newTask);
         verify(taskBaseDAO).writeTask(any(Task.class));
     }
+
+    @Test
+    public void testSearchById() {
+        int taskId = 1;
+        Task expectedTask = new Task();
+        expectedTask.setId(taskId);
+        expectedTask.setDescription("Sample task");
+        expectedTask.setPriority(Priority.Low);
+        expectedTask.setTagList(Arrays.asList(Tag.Work));
+        expectedTask.setCreation(new Date());
+        expectedTask.setConclusion(null);
+
+        // mock the behavior of taskBaseDAO.getById
+        when(taskBaseDAO.getById(taskId)).thenReturn(expectedTask);
+
+        // call the method to be tested
+        Task actualTask = taskResource.searchById(taskId);
+
+        // verify the method call and assert the result
+        verify(taskBaseDAO).getById(taskId);
+        assertEquals(expectedTask, actualTask);
+    }
+
+
     //TODO[#6]: Make all the missing tests. Try starting here using TDD technique.
     //TODO[#7]: Check whether it will be necessary to create tests for the service classes, if so,
     // create the class(es) and the tests, if not, delete the services package from src/test.
