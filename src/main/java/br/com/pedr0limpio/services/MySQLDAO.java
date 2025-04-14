@@ -1,5 +1,6 @@
 package br.com.pedr0limpio.services;
 
+import br.com.pedr0limpio.enums.Priority;
 import br.com.pedr0limpio.enums.Tag;
 import br.com.pedr0limpio.models.Task;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -133,10 +134,31 @@ public class MySQLDAO extends TaskBaseDAO {
         return List.of();
     }
 
-    @Override
-    public Task getById(int id) { //TODO[#10]: Implement getById(int id) to fetch in DB for a task.
-        return null;
+@Override
+public Task getById(int id) { //Implement getById to fetch in DB for a task.
+    String sql = "SELECT id, description, priority, created_at, conclusion_at FROM TASKS WHERE id = ?";
+    try (Connection conn = DriverManager.getConnection(url, username, password);
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, id);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                Task task = new Task();
+                task.setId(rs.getInt("id"));
+                task.setDescription(rs.getString("description"));
+                task.setPriority(Enum.valueOf(Priority.class, rs.getString("priority")));
+                task.setCreation(rs.getTimestamp("created_at"));
+                Timestamp conclusion = rs.getTimestamp("conclusion_at");
+                if (conclusion != null) {
+                    task.setConclusion(conclusion);
+                }
+                return task;
+            }
+        }
+    } catch (SQLException e) {
+        LOGGER.error(e.getMessage());
     }
+    return null;
+}
 
     @Override
     public void update(int idFrom, Task taskFor) { //TODO[#11]: Implement update(int idFrom, Task taskFor) to update a task in DB.

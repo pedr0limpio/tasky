@@ -53,27 +53,21 @@ public class TaskResourceTest {
         verify(taskBaseDAO).writeTask(any(Task.class));
     }
 
-    @Test
-    public void testSearchById() {
-        int taskId = 1;
-        Task expectedTask = new Task();
-        expectedTask.setId(taskId);
-        expectedTask.setDescription("Sample task");
-        expectedTask.setPriority(Priority.Low);
-        expectedTask.setTagList(Arrays.asList(Tag.Work));
-        expectedTask.setCreation(new Date());
-        expectedTask.setConclusion(null);
+@Test
+public void testGetById() {
+    Task mockTask = mock(Task.class);
+    when(mockTask.getDescription()).thenReturn("create a new task");
+    when(mockTask.getPriority()).thenReturn(Priority.Medium);
+    when(mockTask.getTagList()).thenReturn(Arrays.asList(Tag.Work, Tag.Fun));
+    when(taskBaseDAO.getById(1)).thenReturn(mockTask);
 
-        // mock the behavior of taskBaseDAO.getById
-        when(taskBaseDAO.getById(taskId)).thenReturn(expectedTask);
+    Task task = taskResource.searchById(1);
 
-        // call the method to be tested
-        Task actualTask = taskResource.searchById(taskId);
-
-        // verify the method call and assert the result
-        verify(taskBaseDAO).getById(taskId);
-        assertEquals(expectedTask, actualTask);
-    }
+    assertEquals("create a new task", task.getDescription());
+    assertEquals(Priority.Medium, task.getPriority());
+    assertEquals(Arrays.asList(Tag.Work, Tag.Fun), task.getTagList());
+    verify(taskBaseDAO).getById(1);
+}
 
 
     //TODO[#6]: Make all the missing tests. Try starting here using TDD technique.

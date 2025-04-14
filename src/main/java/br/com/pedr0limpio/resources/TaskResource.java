@@ -38,17 +38,16 @@ public class TaskResource {
         return taskBaseDAO.getAllTasks();
     }
 
-    @Query
-    @Description("Fetch a task by id")
-    public Task searchById(int id) {
-        try {
-            Task task = taskBaseDAO.getById(id);
-            return task;
-        } catch (Exception e) {
-            LOG.error("Error fetching task with id: " + id, e);
-            throw new RuntimeException("Error fetching task with id: " + id, e);
-        }
+@Query
+@Description("Fetch a task by id")
+public Task searchById(int id) {
+    try {
+        return taskBaseDAO.getById(id);
+    } catch (Exception e) {
+        LOG.error("Error fetching task by id", e);
+        throw new RuntimeException("Error fetching task by id", e);
     }
+}
 
     @Mutation
     @Transactional
