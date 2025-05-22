@@ -136,20 +136,38 @@ public class MySQLDAO extends TaskBaseDAO {
 
 @Override
 public Task getById(int id) { //Implement getById to fetch in DB for a task.
-    String sql = "SELECT id, description, priority, created_at, conclusion_at FROM TASKS WHERE id = ?";
+    String sql = "SELECT task_id, description, priority, created_at, conclusion_at FROM TASKS WHERE task_id = ?";
     try (Connection conn = DriverManager.getConnection(url, username, password);
          PreparedStatement stmt = conn.prepareStatement(sql)) {
         stmt.setInt(1, id);
         try (ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
-                Task task = new Task();
-                task.setId(rs.getInt("id"));
+                Task task = new Task(rs.getInt("task_id"));
                 task.setDescription(rs.getString("description"));
                 task.setPriority(Enum.valueOf(Priority.class, rs.getString("priority")));
                 task.setCreation(rs.getTimestamp("created_at"));
                 Timestamp conclusion = rs.getTimestamp("conclusion_at");
                 if (conclusion != null) {
                     task.setConclusion(conclusion);
+                }
+                // Fetch tags for this task
+                String tagSql = "SELECT t.name FROM TAGS t " +
+                                "JOIN TASK_TAGS tt ON t.tag_id = tt.tag_id " +
+                                "WHERE tt.task_id = ?";
+                try (PreparedStatement tagStmt = conn.prepareStatement(tagSql)) {
+                    tagStmt.setInt(1, id);
+                    try (ResultSet tagRs = tagStmt.executeQuery()) {
+                        List<Tag> tags = new java.util.ArrayList<>();
+                        while (tagRs.next()) {
+                            String tagName = tagRs.getString("name");
+                            try {
+                                tags.add(Tag.valueOf(tagName));
+                            } catch (IllegalArgumentException e) {
+                                LOGGER.warn("Unknown tag in DB: " + tagName);
+                            }
+                        }
+                        task.setTagList(tags);
+                    }
                 }
                 return task;
             }
