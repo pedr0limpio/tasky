@@ -19,7 +19,13 @@ public class Task {
         return id;
     }
 
-    public void setId(int id) { this.id = id;}
+    public Task() {
+        // Default constructor required for frameworks
+    }
+
+    public Task(int id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;
