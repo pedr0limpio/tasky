@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @QuarkusTest
@@ -89,7 +89,34 @@ public class TaskResourceTest {
         }
         throw new AssertionError("Expected RuntimeException was not thrown");
     }
+
+    @Test
+    public void testDeleteById() {
+        // mock a task and set up DAO to return it before deletion
+        Task mockTask = new Task();
+        mockTask.setDescription("to be deleted");
+        mockTask.setPriority(Priority.Low);
+        mockTask.setTagList(Arrays.asList(Tag.Work));
+        mockTask.setCreation(new Date());
+        mockTask.setConclusion(null);
+        when(taskBaseDAO.getById(10)).thenReturn(mockTask);
+        when(taskBaseDAO.removeById(10)).thenReturn(true);
+        // delete the task
+        String result = taskResource.deleteById(10);
+        assertEquals("task id 10 deleted", result);
+        verify(taskBaseDAO).removeById(10);
+    }
+
+    @Test
+    public void testDeleteById_DaoThrowsException() {
+        // getById returns a task, removeById throws
+        when(taskBaseDAO.getById(2)).thenReturn(new Task());
+        when(taskBaseDAO.removeById(2)).thenThrow(new RuntimeException("DB error"));
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> taskResource.deleteById(2));
+        assertEquals("Error deleting task", thrown.getMessage());
+        verify(taskBaseDAO).removeById(2);
+    }
 }
 
-    //TODO[#6]: Make all the missing tests. Try starting here using TDD technique.
-    //TODO[#7]: Check whether it will be necessary to create tests for the service classes, if so, create the class(es)
+//TODO[#6]: Make all the missing tests. Try starting here using TDD technique.
+//TODO[#7]: Check whether it will be necessary to create tests for the service classes, if so, create the class(es)
