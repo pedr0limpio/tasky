@@ -72,7 +72,12 @@ POST http://localhost:8080/graphql
         })\n
     }"
 }
+###
+GRAPHQL http://localhost:8080/graphql
 
+mutation {
+  deleteById(id: 14)
+}
 ###
 ```
 3. Useful end-points:

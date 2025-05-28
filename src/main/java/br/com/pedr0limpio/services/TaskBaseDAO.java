@@ -9,6 +9,6 @@ public abstract class TaskBaseDAO {
     public abstract List<Task> getAllTasks();
     public abstract Task getById(int id);
     public abstract void update(int idFrom, Task taskFor);
-    public abstract void removeById(int id);
+    public abstract boolean removeById(int id);
 }
 
