@@ -1,14 +1,13 @@
 package br.com.pedr0limpio.services;
-
 import br.com.pedr0limpio.enums.Priority;
 import br.com.pedr0limpio.enums.Tag;
 import br.com.pedr0limpio.models.Task;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -157,7 +156,7 @@ public Task getById(int id) { //Implement getById to fetch in DB for a task.
                 try (PreparedStatement tagStmt = conn.prepareStatement(tagSql)) {
                     tagStmt.setInt(1, id);
                     try (ResultSet tagRs = tagStmt.executeQuery()) {
-                        List<Tag> tags = new java.util.ArrayList<>();
+                        List<Tag> tags = new ArrayList<>();
                         while (tagRs.next()) {
                             String tagName = tagRs.getString("name");
                             try {
