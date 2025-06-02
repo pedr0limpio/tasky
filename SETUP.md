@@ -78,6 +78,26 @@ GRAPHQL http://localhost:8080/graphql
 mutation {
   deleteById(id: 14)
 }
+
+###
+GRAPHQL http://localhost:8080/graphql
+
+mutation {
+    editById(id: 2, updatedTask: {
+        description: "Updated Task",
+        priority: Low,
+        tagList: [Personal],
+        creation: "2025-06-27T16:20:30.1Z",
+        conclusion: null
+    }) {
+    description
+    priority
+    tagList
+    creation
+    conclusion
+    }
+}
+
 ###
 ```
 3. Useful end-points:

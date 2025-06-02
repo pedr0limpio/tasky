@@ -39,26 +39,26 @@ public class TaskResource {
         return taskBaseDAO.getAllTasks();
     }
 
-@Query
-@Description("Fetch a task by id")
-public Task searchById(int id) {
-    try {
-        return taskBaseDAO.getById(id);
-    } catch (Exception e) {
-        LOG.error("Error fetching task by id", e);
-        throw new RuntimeException("Error fetching task by id", e);
+    @Query
+    @Description("Fetch a task by id")
+    public Task searchById(int id) {
+        try {
+            return taskBaseDAO.getById(id);
+        } catch (Exception e) {
+            LOG.error("Error fetching task by id", e);
+            throw new RuntimeException("Error fetching task by id", e);
+        }
     }
-}
 
     @Mutation
     @Transactional
-    public Task editById(int id, Task taskFor) { //TODO[#4]: Implement the editById(int id, Task taskFor) method to update a task
+    public Task editById(int id, Task updatedTask) {
         try {
-            taskBaseDAO.update(id, taskFor);
-            return taskFor;
+            taskBaseDAO.update(id, updatedTask);
+            return updatedTask;
         } catch (Exception e) {
-            LOG.error("Error editing task", e);
-            throw new RuntimeException("Error editing task", e);
+            LOG.error("Error updating task with id " + id, e);
+            throw new RuntimeException("Could not update task", e);
         }
     }
 
