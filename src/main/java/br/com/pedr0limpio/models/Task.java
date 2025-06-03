@@ -19,6 +19,14 @@ public class Task {
         return id;
     }
 
+    public Task() {
+        // Default constructor required for frameworks
+    }
+
+    public Task(int id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
     }
