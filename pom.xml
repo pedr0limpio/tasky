@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.com.pedr0limpio</groupId>
     <artifactId>tasky</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
