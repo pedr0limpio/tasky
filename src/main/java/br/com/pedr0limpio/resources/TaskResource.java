@@ -35,6 +35,7 @@ public class TaskResource {
     }
 
     @Query
+    @Description("Lists all tasks")
     public List<Task> listAll() { //TODO[#2]: Implement the listAll() method to list all tasks.
         return taskBaseDAO.getAllTasks();
     }

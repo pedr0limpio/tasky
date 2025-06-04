@@ -99,6 +99,19 @@ mutation {
 }
 
 ###
+GRAPHQL http://localhost:8080/graphql
+
+{
+    listAll {
+        description
+        priority
+        tagList
+        creation
+        conclusion
+    }
+}
+
+###
 ```
 3. Useful end-points:
    1. [GraphQL Schema API](http://localhost:8080/graphql/schema.graphql) - API documentation 

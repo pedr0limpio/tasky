@@ -128,8 +128,47 @@ public class MySQLDAO extends TaskBaseDAO {
     }
 
     @Override
-    public List<Task> getAllTasks() { //TODO[#9]: Implement getAllTasks() to fetch in DB for all tasks.
-        return List.of();
+    public List<Task> getAllTasks() {
+        List<Task> tasks = new java.util.ArrayList<>();
+        String sql = "SELECT task_id, description, priority, created_at, conclusion_at FROM TASKS";
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Task task = new Task();
+                int taskId = rs.getInt("task_id");
+                task.setDescription(rs.getString("description"));
+                task.setPriority(br.com.pedr0limpio.enums.Priority.valueOf(rs.getString("priority")));
+                task.setCreation(rs.getTimestamp("created_at"));
+                task.setConclusion(rs.getTimestamp("conclusion_at"));
+
+                // Fetch tags for this task
+                List<Tag> tags = new java.util.ArrayList<>();
+                String tagSql = "SELECT t.name FROM TAGS t " +
+                                "JOIN TASK_TAGS tt ON t.tag_id = tt.tag_id " +
+                                "WHERE tt.task_id = ?";
+                try (PreparedStatement tagStmt = conn.prepareStatement(tagSql)) {
+                    tagStmt.setInt(1, taskId);
+                    try (ResultSet tagRs = tagStmt.executeQuery()) {
+                        while (tagRs.next()) {
+                            String tagName = tagRs.getString("name");
+                            try {
+                                tags.add(Tag.valueOf(tagName));
+                            } catch (IllegalArgumentException e) {
+                                LOGGER.warn("Unknown tag: " + tagName);
+                            }
+                        }
+                    }
+                }
+                task.setTagList(tags);
+
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error fetching all tasks: " + e.getMessage());
+        }
+        return tasks;
     }
 
 @Override
