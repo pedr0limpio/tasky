@@ -44,54 +44,33 @@ FOREIGN KEY (tag_id) REFERENCES TAGS(tag_id)
 2. I use graphql-api.http (HTTP Client plugin build-in for IntelliJ) for dev testing of API;
    - Content of graphql-api.http:
 ```http request
-GRAPHQL http://localhost:8080/graphql
-    
-query {
-    sayHello(name: "Pedro")
-}
-
-###
-POST http://localhost:8080/graphql
-
-{
-    "query": "query($name: String!) {
-        sayHello(name: $name)
-    }",
-    "variables": {
-        "name": "Alice"
-    }
-}
-
-###
-POST http://localhost:8080/graphql
-
-{
-    "query": "{
-        sayHello(name: \"Pedro\") {
-        name,
-        surname
-        }
-    }"
-}
-
 ###
 GRAPHQL http://localhost:8080/graphql
 
 mutation {
     newTask(task: {
-    description: "test project",
-    priority: Info,
-    tagList: [Personal, Game],
-    creation: "2025-02-02T17:02:01Z",
-    conclusion: null
-}) {
-    id
-    description
-    priority
-    tagList
-    creation
-    conclusion
-    }
+        description: "Project Unknow New",
+        priority: High,
+        tagList: [Work],
+        creation: "2025-04-14T11:04:30.1Z",
+        conclusion: null
+    })
+}
+
+###
+POST http://localhost:8080/graphql
+
+{
+"query":
+    "mutation {\n
+        newTask(task: {\n
+            description: \"Project Unknow New\",\n
+            priority: High,\n
+            tagList: [Work],\n
+            creation: \"2025-04-14T11:04:30.1Z\",\n
+            conclusion: null\n
+        })\n
+    }"
 }
 
 ###

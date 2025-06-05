@@ -23,14 +23,15 @@ public class TaskResource {
     @Mutation
     @Transactional
     @Description("Create a new task")
-    public Task newTask(Task task) {
+    public int newTask(Task task) {
+        int id = -1;
         try {
-            taskBaseDAO.writeTask(task);
-            return task;
+            id = taskBaseDAO.writeTask(task);
         } catch (Exception e) {
             LOG.error("Error creating new task", e);
             throw new RuntimeException("Error creating new task", e);
         }
+        return id;
     }
 
     @Query
