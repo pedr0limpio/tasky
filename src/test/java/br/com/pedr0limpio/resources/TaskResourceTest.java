@@ -29,15 +29,8 @@ public class TaskResourceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        Task mockTask = new Task();
-        mockTask.setDescription("create a new task");
-        mockTask.setPriority(Priority.Medium);
-        mockTask.setTagList(Arrays.asList(Tag.Work, Tag.Fun));
-        mockTask.setCreation(new Date());
-        mockTask.setConclusion(null);
-
-        doNothing().when(taskBaseDAO).writeTask(any(Task.class));
-        when(taskBaseDAO.getById(1)).thenReturn(mockTask);
+        when(taskBaseDAO.writeTask(any(Task.class))).thenReturn(1);
+        when(taskBaseDAO.getById(1)).thenReturn(new Task());
     }
 
     @Test
@@ -48,21 +41,21 @@ public class TaskResourceTest {
         newTask.setTagList(Arrays.asList(Tag.Work, Tag.Fun));
         newTask.setCreation(new Date());
         newTask.setConclusion(null);
-
+        when(taskBaseDAO.writeTask(any(Task.class))).thenReturn(1);
         taskResource.newTask(newTask);
         verify(taskBaseDAO).writeTask(any(Task.class));
     }
 
     @Test
     public void testGetById() {
-        Task mockTask = mock(Task.class);
-        when(mockTask.getDescription()).thenReturn("create a new task");
-        when(mockTask.getPriority()).thenReturn(Priority.Medium);
-        when(mockTask.getTagList()).thenReturn(Arrays.asList(Tag.Work, Tag.Fun));
+        Task mockTask = new Task();
+        mockTask.setDescription("create a new task");
+        mockTask.setPriority(Priority.Medium);
+        mockTask.setTagList(Arrays.asList(Tag.Work, Tag.Fun));
+        mockTask.setCreation(new Date());
+        mockTask.setConclusion(null);
         when(taskBaseDAO.getById(1)).thenReturn(mockTask);
-
         Task task = taskResource.searchById(1);
-
         assertEquals("create a new task", task.getDescription());
         assertEquals(Priority.Medium, task.getPriority());
         assertEquals(Arrays.asList(Tag.Work, Tag.Fun), task.getTagList());
