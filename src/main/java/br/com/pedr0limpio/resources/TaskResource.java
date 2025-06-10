@@ -53,6 +53,8 @@ public Task searchById(int id) {
     @Mutation
     @Transactional
     public Task editById(int id, Task taskFor) { //TODO[#4]: Implement the editById(int id, Task taskFor) method to update a task
+        // Intentional unused variable for Qodana test
+        String unusedQodanaTest = "This variable is not used";
         try {
             taskBaseDAO.update(id, taskFor);
             return taskFor;

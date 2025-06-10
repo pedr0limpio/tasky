@@ -1,0 +1,46 @@
+name: Qodana
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  qodana-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Docker Buildx
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      # Run Qodana analysis inside Docker and save CLI output to a log file
+      - name: Run Qodana via Docker
+        run: |
+          mkdir -p ${{ github.workspace }}/qodana-results
+          docker run --rm \
+            -v ${{ github.workspace }}:/data \
+            -v ${{ github.workspace }}/qodana-results:/data/results \
+            -w /data \
+            jetbrains/qodana-jvm-community:2024.1 | tee ${{ github.workspace }}/qodana-results/qodana.log
+
+      # Upload the Qodana results as a workflow artifact for download
+      - name: Upload Qodana Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Qodana Report
+          path: ${{ github.workspace }}/qodana-results
+
+      # Remove previous Qodana Report Info steps and add a new concise summary
+      - name: Qodana Summary
+        if: always()
+        run: |
+          echo "### Qodana - Run Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Qodana analysis has completed. For detailed results and findings, please download the Qodana report artifact from the Artifacts section below." >> $GITHUB_STEP_SUMMARY
