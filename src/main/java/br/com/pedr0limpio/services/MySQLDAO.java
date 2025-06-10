@@ -182,8 +182,29 @@ public Task getById(int id) { //Implement getById to fetch in DB for a task.
     }
 
     @Override
-    public void removeById(int id) { //TODO[#12]: Implement removeById(int id) to delete a task by id in DB.
-
+    public boolean removeById(int id) {
+        String deleteTaskTagsSql = "DELETE FROM TASK_TAGS WHERE task_id = ?";
+        String deleteTaskSql = "DELETE FROM TASKS WHERE task_id = ?";
+        int affectedRows = 0;
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement stmt1 = conn.prepareStatement(deleteTaskTagsSql)) {
+                stmt1.setInt(1, id);
+                stmt1.executeUpdate();
+            }
+            try (PreparedStatement stmt2 = conn.prepareStatement(deleteTaskSql)) {
+                stmt2.setInt(1, id);
+                affectedRows = stmt2.executeUpdate();
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                conn.rollback();
+            } catch (SQLException rollbackException) {
+                LOGGER.error(rollbackException.getMessage());
+            }
+        }
+        return affectedRows > 0;
     }
 }
-

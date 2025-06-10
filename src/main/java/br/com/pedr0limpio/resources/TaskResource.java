@@ -64,9 +64,14 @@ public Task searchById(int id) {
 
     @Mutation
     @Transactional
-    public void deleteById(int id) { //TODO[#5]: Implement the deleteById(int id) method to delete a task.
+    public String deleteById(int id) {
         try {
+            Task existing = taskBaseDAO.getById(id);
+            if (existing == null) {
+                return "task id " + id + " not found";
+            }
             taskBaseDAO.removeById(id);
+            return "task id " + id + " deleted";
         } catch (Exception e) {
             LOG.error("Error deleting task", e);
             throw new RuntimeException("Error deleting task", e);
