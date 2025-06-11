@@ -57,10 +57,11 @@ public class MySQLDAO extends TaskBaseDAO {
     @Override
     public void writeTask(Task task) {
         checkDatabaseConfig();
+        int taskId = -1;
+
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             conn.setAutoCommit(false);
-
-            int taskId = insertTask(conn, task);
+            taskId = insertTask(conn, task);
             if (taskId == -1) {
                 throw new SQLException("Failed to write task.");
             }
@@ -70,10 +71,8 @@ public class MySQLDAO extends TaskBaseDAO {
                 if (tagId == -1) {
                     throw new SQLException("Failed to insert and/or get tag ID for tag: " + tag);
                 }
-
                 insertTaskTag(conn, taskId, tagId);
             }
-
             conn.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -83,6 +82,7 @@ public class MySQLDAO extends TaskBaseDAO {
                 LOGGER.error(rollbackException.getMessage());
             }
         }
+        return taskId;
     }
 
     private int insertTask(Connection conn, Task task) throws SQLException {
