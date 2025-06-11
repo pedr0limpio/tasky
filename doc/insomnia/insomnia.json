@@ -1,0 +1,221 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-06-11T14:07:47.005Z",
+  "__export_source": "insomnia.desktop.app:v10.3.1",
+  "resources": [
+    {
+      "_id": "req_890f0fcd88c547caa3f21524c28bd167",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1748453651349,
+      "created": 1748443055314,
+      "url": "http://localhost:8080/graphql",
+      "name": "newTask",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"mutation {\\n\\tnewTask(\\n\\t\\ttask: {\\n\\t\\tdescription: \\\"deleteme\\\",\\n\\t\\tpriority: Info,\\n\\t\\ttagList: [Personal, Work],\\n\\t\\tcreation: \\\"2025-05-28T11:00:00Z\\\",\\n\\t\\tconclusion: null\\n\\t\\n\\t\\t})\\n\\t{\\n\\t\\tid\\n\\t\\tdescription\\n\\t\\tpriority\\n\\t\\ttagList\\n\\t\\tcreation\\n\\t\\tconclusion\\n\\t}\\n}\\n\\t\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.3.1"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748443055314,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "parentId": null,
+      "modified": 1748441235305,
+      "created": 1741269754962,
+      "name": "tasky",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_37e6e6f5c32e495a850a4872150d34d5",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1748873650402,
+      "created": 1748443359584,
+      "url": "http://localhost:8080/graphql",
+      "name": "getTaskId",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"query {\\n\\tsearchById(id: 1) {\\n\\t\\tid\\n\\t\\tdescription\\n\\t\\tpriority\\n\\t\\ttagList\\n\\t\\tcreation\\n\\t\\tconclusion\\n\\t}\\n}\\n\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.3.1"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748443055264,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_17c2a41c6d064f9a98b0d8afdb653e9f",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1748454896283,
+      "created": 1748453240683,
+      "url": "http://localhost:8080/graphql",
+      "name": "deleteTaskId",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"mutation {\\n  deleteById(id: 5)\\n}\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.3.1"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748443055214,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b394fd4e6b0b4f059d3a8d70c22506aa",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1748869202698,
+      "created": 1748868351221,
+      "url": "http://localhost:8080/graphql",
+      "name": "editTaskId",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"mutation {\\n  editById(\\n    id: 1,\\n    updatedTask: {\\n      description: \\\"Updated description\\\"\\n      priority: High\\n      tagList: [Personal]\\n      creation: \\\"2024-06-01T12:00:00Z\\\"\\n      conclusion: \\\"2024-06-02T12:00:00Z\\\"\\n    }\\n  ) {\\n    description\\n    priority\\n    tagList\\n    creation\\n    conclusion\\n  }\\n}\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.3.1"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748443055164,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b78a363cdf8c4f98833251aeb074b6c3",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1749051097383,
+      "created": 1749051081703,
+      "url": "http://localhost:8080/graphql",
+      "name": "listAll",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/graphql",
+        "text": "{\"query\":\"query {\\n  listAll {\\n    description\\n    priority\\n    tagList\\n    creation\\n    conclusion\\n  }\\n}\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/10.3.1"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748443055114,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_d76da4c90990988c348bc28a0f33427c80a290a0",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1748441235304,
+      "created": 1741269754966,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1741269754966,
+      "environmentType": "kv",
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_d76da4c90990988c348bc28a0f33427c80a290a0",
+      "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
+      "modified": 1748441235351,
+      "created": 1748441235351,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}
