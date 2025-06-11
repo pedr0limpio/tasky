@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2025-06-11T14:07:47.005Z",
+  "__export_date": "2025-06-11T15:07:31.764Z",
   "__export_source": "insomnia.desktop.app:v10.3.1",
   "resources": [
     {
       "_id": "req_890f0fcd88c547caa3f21524c28bd167",
       "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
-      "modified": 1748453651349,
+      "modified": 1749654422099,
       "created": 1748443055314,
       "url": "http://localhost:8080/graphql",
       "name": "newTask",
@@ -15,7 +15,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/graphql",
-        "text": "{\"query\":\"mutation {\\n\\tnewTask(\\n\\t\\ttask: {\\n\\t\\tdescription: \\\"deleteme\\\",\\n\\t\\tpriority: Info,\\n\\t\\ttagList: [Personal, Work],\\n\\t\\tcreation: \\\"2025-05-28T11:00:00Z\\\",\\n\\t\\tconclusion: null\\n\\t\\n\\t\\t})\\n\\t{\\n\\t\\tid\\n\\t\\tdescription\\n\\t\\tpriority\\n\\t\\ttagList\\n\\t\\tcreation\\n\\t\\tconclusion\\n\\t}\\n}\\n\\t\"}"
+        "text": "{\"query\":\"mutation {\\n  newTask(\\n    task: {\\n      description: \\\"deleteme\\\"\\n      priority: Info\\n      tagList: [Personal, Work]\\n      creation: \\\"2025-05-28T11:00:00Z\\\"\\n      conclusion: null\\n    }\\n  )\\n}\"}"
       },
       "parameters": [],
       "headers": [
@@ -53,7 +53,7 @@
     {
       "_id": "req_37e6e6f5c32e495a850a4872150d34d5",
       "parentId": "wrk_3d521749d9754acc9979a11ac55e42a1",
-      "modified": 1748873650402,
+      "modified": 1749653836448,
       "created": 1748443359584,
       "url": "http://localhost:8080/graphql",
       "name": "getTaskId",
@@ -61,7 +61,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/graphql",
-        "text": "{\"query\":\"query {\\n\\tsearchById(id: 1) {\\n\\t\\tid\\n\\t\\tdescription\\n\\t\\tpriority\\n\\t\\ttagList\\n\\t\\tcreation\\n\\t\\tconclusion\\n\\t}\\n}\\n\"}"
+        "text": "{\"query\":\"query {\\n\\tsearchById(id: 7) {\\n\\t\\tid\\n\\t\\tdescription\\n\\t\\tpriority\\n\\t\\ttagList\\n\\t\\tcreation\\n\\t\\tconclusion\\n\\t}\\n}\\n\"}"
       },
       "parameters": [],
       "headers": [
