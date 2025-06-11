@@ -55,7 +55,7 @@ public class MySQLDAO extends TaskBaseDAO {
     }
 
     @Override
-    public void writeTask(Task task) {
+    public int writeTask(Task task) {
         checkDatabaseConfig();
         int taskId = -1;
 
