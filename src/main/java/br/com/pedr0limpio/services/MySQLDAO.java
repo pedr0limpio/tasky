@@ -177,8 +177,62 @@ public Task getById(int id) { //Implement getById to fetch in DB for a task.
 }
 
     @Override
-    public void update(int idFrom, Task taskFor) { //TODO[#11]: Implement update(int idFrom, Task taskFor) to update a task in DB.
+    public void update(int idFrom, Task taskFor) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, username, password);
+            conn.setAutoCommit(false);
 
+            // update main task fields
+            String sql = "UPDATE TASKS SET description = ?, priority = ?, created_at = ?, conclusion_at = ? WHERE task_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, taskFor.getDescription());
+                stmt.setString(2, taskFor.getPriority().name());
+                stmt.setTimestamp(3, new Timestamp(taskFor.getCreation().getTime()));
+                if (taskFor.getConclusion() != null) {
+                    stmt.setTimestamp(4, new Timestamp(taskFor.getConclusion().getTime()));
+                } else {
+                    stmt.setNull(4, java.sql.Types.TIMESTAMP);
+                }
+                stmt.setInt(5, idFrom);
+                stmt.executeUpdate();
+            }
+
+            // remove old tags
+            String deleteTagsSql = "DELETE FROM TASK_TAGS WHERE task_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteTagsSql)) {
+                stmt.setInt(1, idFrom);
+                stmt.executeUpdate();
+            }
+
+            // insert new tags
+            if (taskFor.getTagList() != null) {
+                for (Tag tag : taskFor.getTagList()) {
+                    int tagId = insertOrGetTagId(conn, tag.name());
+                    insertTaskTag(conn, idFrom, tagId);
+                }
+            }
+
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    LOGGER.error("Rollback failed: " + ex.getMessage());
+                }
+            }
+            LOGGER.error("Update failed: " + e.getMessage());
+            throw new RuntimeException("Database update failed", e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    LOGGER.error("Connection close failed: " + e.getMessage());
+                }
+            }
+        }
     }
 
     @Override
