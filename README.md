@@ -8,7 +8,7 @@ If you want to learn more about Quarkus, please visit its website: <https://quar
 ### Heads up!
 Make sure you have JAVA_HOME and MAVEN_HOME properly set on both OS and IDE.
 You may want to ask any GPT how to set those.
-Also, make sure you test clean and install your Maven installation.
+Also, make sure you test clean and install your Maven installation, ok?!
 
 ## Running the application in dev mode
 
